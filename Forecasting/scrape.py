@@ -4,12 +4,14 @@ import os
 import tweepy as tweepy
 from dotenv import load_dotenv
 import pandas as pd
+import senti_anal
 
 
 def output_csv(data, hashtag, page_num):
     if page_num % 100 == 0:
         date_label = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         df = pd.DataFrame(data)
+        senti_anal.textblob_anal(df)
         print("....... outputting to csv", page_num, len(data))
         df.to_csv(f"{hashtag}_{page_num}_{date_label}.csv", index=False)
         print("  ..... resetting df")
@@ -80,6 +82,7 @@ class TweetScraper:
 
         date_label = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
         df = pd.DataFrame(data)
+        senti_anal.textblob_anal(df)
         df.to_csv(f"{hashtag}_{page_num/100}_{date_label}.csv", index=False)
 
 
